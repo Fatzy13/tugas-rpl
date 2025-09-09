@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatzy | Game Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6B8DD6;
+            --secondary-color: #764ba2;
+            --accent-color: #FF8400;
+            --text-color: #fafafa;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            --card-bg: rgba(15, 15, 25, 0.7);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1840ee, #764ba2, #d204c1, #ff8400);
+            background-size: 400% 400%;
+            animation: gradient 12s ease infinite;
+            min-height: 100vh;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+        
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1.2rem;
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-menu a:hover, 
+        .nav-menu a.active {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            transform: translateY(-2px);
+        }
+        
+        /* Profile Card */
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0)
+            );
+            transform: rotate(30deg);
+            z-index: -1;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-picture {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
+            margin: 0 auto 1.5rem;
+            display: block;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .profile-picture:hover {
+            transform: scale(1.08);
+            border-color: var(--accent-color);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #6B8DD6, #FF8400);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .title {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .bio {
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0 1rem;
+        }
+        
+        /* Skills Section */
+        .section-title {
+            text-align: center;
+            margin: 2.5rem 0 1.5rem;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+        
+        .skill-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: left;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .skill-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .skill-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .skill-percentage {
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            position: relative;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+        
+        /* Hobbies Section */
+        .hobbies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+        
+        .hobby-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hobby-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .hobby-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .hobby-item h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-links a {
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.1);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-links a:hover::before {
+            opacity: 1;
+        }
+        
+        .social-links a:nth-child(1):hover { background: #25D366; }
+        .social-links a:nth-child(2):hover { background: #FF0000; }
+        .social-links a:nth-child(3):hover { background: #000000; }
+        .social-links a:nth-child(4):hover { 
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); 
+        }
+        
+        /* Skill Tags */
+        .skills {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .skill-tag:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-wrap: wrap;
+                padding: 0.5rem;
+            }
+            
+            .nav-menu a {
+                margin: 0.3rem;
+                font-size: 0.9rem;
+            }
+            
+            .profile-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .profile-picture {
+                width: 130px;
+                height: 130px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .title {
+                font-size: 1.1rem;
+            }
+            
+            .bio {
+                font-size: 1rem;
+                padding: 0;
+            }
+            
+            .social-links a {
+                width: 42px;
+                height: 42px;
+                font-size: 1.1rem;
+            }
+            
+            .skills-container,
+            .hobbies-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Section Visibility */
+        .content-section {
+            display: none;
+            width: 100%;
+        }
+        
+        .content-section.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Menu -->
+        <nav class="nav-menu">
+            <a href="#home" class="nav-link active" data-section="home">Home</a>
+            <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+            <a href="#hobbies" class="nav-link" data-section="hobbies">Hobi</a>
+            <a href="#contact" class="nav-link" data-section="contact">Kontak</a>
+        </nav>
+        
+        <!-- Home Section -->
+        <section id="home" class="content-section active">
+            <div class="profile-card">
+                <img src="image/images.jpg" alt="Fatzy's Profile Picture" class="profile-picture floating">
+                <h1>Fatzy</h1>
+                <p class="title">Game Developer</p>
+                <p class="bio">Program pertama ku membuat website. Saya bersemangat dalam pengembangan game dan desain interaktif. Selalu belajar teknologi terbaru untuk menciptakan pengalaman digital yang menarik.</p>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="content-section">
+            <h2 class="section-title">Skills Saya</h2>
+            <div class="skills-container">
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Unity Development</span>
+                        <span class="skill-percentage">15%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="15"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">HTML</span>
+                        <span class="skill-percentage">30%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="30"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">CSS</span>
+                        <span class="skill-percentage">15%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="15"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">JavaScript</span>
+                        <span class="skill-percentage">17%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="17"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Game Design</span>
+                        <span class="skill-percentage">7%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="7"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">UI/UX Design</span>
+                        <span class="skill-percentage">12%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="12"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Hobbies Section -->
+        <section id="hobbies" class="content-section">
+            <h2 class="section-title">Hobi Saya</h2>
+            <div class="hobbies-container">
+                <div class="hobby-item">
+                    <div class="hobby-icon">
+                        <i class="fas fa-table-tennis-paddle-ball"></i>
+                    </div>
+                    <h3>Bermain Badminton</h3>
+                    <p>Saya sangat menikmati bermain badminton di waktu luang. Olahraga ini membantu saya tetap sehat dan bersemangat.</p>
+                </div>
+                
+                <div class="hobby-item">
+                    <div class="hobby-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Bermain Game</h3>
+                    <p>Selain membuat game, saya juga senang memainkan berbagai jenis game untuk seperti Free Fire, Mobile Legends, FC Mobile, Blood Strike, Roblox.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="content-section">
+            <h2 class="section-title">Hubungi Saya</h2>
+            <div class="profile-card">
+                <p class="bio">Project saya, sekian dari saya Terima Kasih.</p>
+                
+                <div class="social-links">
+                    <a href="https://whatsapp.com/085806030577" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://youtube.com/@fatih.sigma7" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://tiktok.com/fatih.raja.dangduts" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://instagram.com/fatih.raja.dangduts" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = link.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Animate skill bars when skills section is opened
+                if (sectionId === 'skills') {
+                    setTimeout(animateSkillBars, 300);
+                }
+            });
+        });
+        
+        // Animate skill bars
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = width + '%';
+            });
+        }
+        
+        // Add a subtle mouse move effect to the card
+        const profileCard = document.querySelector('.profile-card');
+        if (profileCard) {
+            profileCard.addEventListener('mousemove', function(e) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                this.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) translateY(-10px)`;
+            });
+            
+            profileCard.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+        }
+    </script>
+</body>
+</html>
